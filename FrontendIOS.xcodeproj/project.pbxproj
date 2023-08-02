@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		546A7B212A7B04D20054579B /* ColaboradorDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546A7B202A7B04D20054579B /* ColaboradorDTO.swift */; };
 		54DD97972A7925F40081203E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DD97962A7925F40081203E /* AppDelegate.swift */; };
 		54DD97992A7925F40081203E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DD97982A7925F40081203E /* SceneDelegate.swift */; };
 		54DD979B2A7925F40081203E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DD979A2A7925F40081203E /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		546A7B202A7B04D20054579B /* ColaboradorDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColaboradorDTO.swift; sourceTree = "<group>"; };
 		54DD97932A7925F40081203E /* FrontendIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FrontendIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54DD97962A7925F40081203E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		54DD97982A7925F40081203E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				54DD979F2A7925F50081203E /* Assets.xcassets */,
 				54DD97A12A7925F50081203E /* LaunchScreen.storyboard */,
 				54DD97A42A7925F50081203E /* Info.plist */,
+				546A7B202A7B04D20054579B /* ColaboradorDTO.swift */,
 			);
 			path = FrontendIOS;
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 			files = (
 				54DD979B2A7925F40081203E /* ViewController.swift in Sources */,
 				54DD97972A7925F40081203E /* AppDelegate.swift in Sources */,
+				546A7B212A7B04D20054579B /* ColaboradorDTO.swift in Sources */,
 				54DD97992A7925F40081203E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
