@@ -37,27 +37,38 @@ class ViewController: UIViewController {
     
     //https://www.freecodecamp.org/news/how-to-make-your-first-api-call-in-swift/
     func listarTodos(completionHandler: @escaping ([ColaboradorDTO]) -> Void) {
-        let url = URL(string: "http://192.168.2.2:8080")!
+        let url = URL(string: "http://192.168.2.4:8080")!
 
-        let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
-          if let error = error {
-            print("Erro: \(error)")
-            return
-          }
-          
-          guard let httpResponse = response as? HTTPURLResponse,
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error)")
+                completionHandler([])
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
                 (200...299).contains(httpResponse.statusCode) else {
-            print("Error with the response, unexpected status code: \(response)")
-            return
-          }
+                print("Error with the response, unexpected status code: \(response)")
+                completionHandler([])
+                return
+            }
 
-          if let data = data,
-            let colaboradorDTOList =
-                try? JSONDecoder().decode(ColaboradorDTO.self, from: data) {
-                    completionHandler([colaboradorDTOList])
+            if let data = data {
+                do {
+                    let colaboradorDTOList = try JSONDecoder().decode([ColaboradorDTO].self, from: data)
+                    completionHandler(colaboradorDTOList)
+                } catch {
+                    print("Error decoding JSON: \(error)")
+                    completionHandler([])
                 }
-        })
+            } else {
+                completionHandler([])
+            }
+        }
+
         task.resume()
-      }
+    }
+
+
 }
 

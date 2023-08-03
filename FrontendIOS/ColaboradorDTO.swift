@@ -15,9 +15,9 @@ struct ColaboradorDTO : Decodable {
         
     var senha : String
         
-    var score : String
+    var score : String?
         
-    var chefe : ColaboradorChefeDTO
+    var chefe : ColaboradorChefeDTO?
 }
 
 struct ColaboradorChefeDTO : Decodable {
@@ -27,7 +27,7 @@ struct ColaboradorChefeDTO : Decodable {
         
     var senha : String
         
-    var score : String
+    var score : String?
         
 }
 
