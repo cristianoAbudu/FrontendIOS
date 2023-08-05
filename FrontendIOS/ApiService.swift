@@ -95,7 +95,8 @@ class ApiService {
           // create json object from data or use JSONDecoder to convert to Model stuct
           if let jsonResponse = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers) as? [String: Any] {
             print(jsonResponse)
-            
+            viewController.listarTodos()
+
             // handle json response
           } else {
             print("data maybe corrupted or in wrong format")
@@ -107,7 +108,6 @@ class ApiService {
       }
       // perform the task
       task.resume()
-      viewController.listarTodos()
       viewController.limparCampos()
     }
 
