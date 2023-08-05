@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -60,11 +61,24 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6lj-dP-KKn">
+                                <rect key="frame" x="27" y="606" width="367" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <menu key="menu" id="mrd-M3-zap">
+                                    <children>
+                                        <command title="Item 1" id="sWi-4L-v2w"/>
+                                        <command title="Item 2" id="Lbt-gv-gpz"/>
+                                    </children>
+                                </menu>
+                                <state key="normal" title="Button"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
+                        <outlet property="chefe" destination="6lj-dP-KKn" id="0o1-UB-Mae"/>
+                        <outlet property="chefeMenu" destination="mrd-M3-zap" id="1Hw-6m-TYo"/>
                         <outlet property="nome" destination="eZg-w6-EeX" id="IpU-hd-w4D"/>
                         <outlet property="senha" destination="flI-JW-Evh" id="VAG-AU-H8X"/>
                         <outlet property="tableView" destination="lmQ-J9-uHl" id="05M-ud-1FK"/>

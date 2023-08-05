@@ -15,6 +15,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var chefe: UIButton!
+    
+    @IBOutlet weak var chefeMenu: UIMenu!
+    
     private var colaboradorList: [ColaboradorDTO]?
     
     private var apiService = ApiService()
@@ -30,6 +34,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
           
         tableView.delegate = self
         tableView.dataSource = self
+        
     }
     
     public func listarTodos() {
@@ -39,9 +44,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self?.colaboradorList = colaboradorList
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                self?.carregarCombos()
             }
         }
     
+    }
+    
+    public func carregarCombos(){
+       let colaboradorOptions: [UIAction] = colaboradorList?.map { colaborador in
+           UIAction(title: colaborador.nome, image: UIImage(systemName: "person")) { _ in
+               // Lógica a ser executada ao selecionar um colaborador
+               // Você pode acessar o colaborador selecionado através do parâmetro _
+               // Por exemplo: print("Colaborador selecionado: \(colaborador.nome)")
+           }
+       } ?? []
+        
+       chefeMenu = UIMenu(
+            title: "Selecione um Colaborador",
+            children: colaboradorOptions
+       )
+        
+        //chefeMenu.replacingChildren(colaboradorOptions)
+        
+        chefe.addTarget(self, action: #selector(showChefeMenu(_:)), for: .touchUpInside)
+
+    }
+    
+    @objc func showChefeMenu(_ sender: UIButton) {
+       let chefeMenuController = UIMenuController.shared
+       chefeMenuController.showMenu(from: chefe, rect: chefe.bounds)
     }
     
     public func limparCampos() {
@@ -58,7 +89,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.colaboradorList?.count ?? 0 
+        return self.colaboradorList?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
