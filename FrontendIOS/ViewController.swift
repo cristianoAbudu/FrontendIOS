@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var nome: UITextField!
     
@@ -15,10 +15,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet weak var chefe: UIButton!
+    @IBOutlet weak var chefe: UIPickerView!
     
-    @IBOutlet weak var chefeMenu: UIMenu!
+    @IBOutlet weak var subordinado: UIPickerView!
     
+    var chefeSelecionado : Int?;
+    
+    var subordinadoSelecionado : Int?;
+        
     private var colaboradorList: [ColaboradorDTO]?
     
     private var apiService = ApiService()
@@ -35,6 +39,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
         tableView.dataSource = self
         
+        chefe.delegate = self
+        chefe.dataSource = self
+        
+        subordinado.delegate = self
+        subordinado.dataSource = self
+        
     }
     
     public func listarTodos() {
@@ -44,37 +54,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self?.colaboradorList = colaboradorList
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
-                self?.carregarCombos()
+                self?.chefe.reloadAllComponents()
+                self?.subordinado.reloadAllComponents()
             }
         }
     
     }
     
-    public func carregarCombos(){
-       let colaboradorOptions: [UIAction] = colaboradorList?.map { colaborador in
-           UIAction(title: colaborador.nome, image: UIImage(systemName: "person")) { _ in
-               // Lógica a ser executada ao selecionar um colaborador
-               // Você pode acessar o colaborador selecionado através do parâmetro _
-               // Por exemplo: print("Colaborador selecionado: \(colaborador.nome)")
-           }
-       } ?? []
-        
-       chefeMenu = UIMenu(
-            title: "Selecione um Colaborador",
-            children: colaboradorOptions
-       )
-        
-        //chefeMenu.replacingChildren(colaboradorOptions)
-        
-        chefe.addTarget(self, action: #selector(showChefeMenu(_:)), for: .touchUpInside)
-
+    func pickerView(
+        _ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if(pickerView.isEqual(chefe)){
+            chefeSelecionado = row
+        }
+        else if(pickerView.isEqual(subordinado)){
+            subordinadoSelecionado = row
+        }
     }
-    
-    @objc func showChefeMenu(_ sender: UIButton) {
-       let chefeMenuController = UIMenuController.shared
-       chefeMenuController.showMenu(from: chefe, rect: chefe.bounds)
-    }
-    
+   
     public func limparCampos() {
         nome.text = ""
         senha.text = ""
@@ -88,6 +84,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         )
     }
     
+    @IBAction func asssociarChefe(_ sender: Any) {
+        var colaboradorChefe  = colaboradorList?[chefeSelecionado ?? 0]
+        var colaboradorSubordinado = colaboradorList?[subordinadoSelecionado ?? 0]
+        apiService.associarChefe(
+            chefe: colaboradorChefe!,
+            subordinado: colaboradorSubordinado!,
+            viewController: self
+        )
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.colaboradorList?.count ?? 0
     }
@@ -96,6 +101,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if let cell = self.tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as UITableViewCell? {
             cell.textLabel?.text = self.colaboradorList?[indexPath.row].nome ?? ""
+            cell.textLabel?.text! += " chefe: "
+            cell.textLabel?.text! += self.colaboradorList?[indexPath.row].chefe?.nome ?? ""
+
             return cell
         } else {
            return UITableViewCell()
@@ -107,6 +115,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let nome = self.colaboradorList?[indexPath.row].nome
         print("You tapped cell number \(nome).")
     }
+    
+
+    // Number of columns of data
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // The number of rows of data
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return colaboradorList?.count ?? 0
+    }
+    
+    // The data to return fopr the row and component (column) that's being passed in
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return colaboradorList?[row].nome ?? ""
+    }
+
 
   
 }
