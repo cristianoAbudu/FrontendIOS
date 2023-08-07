@@ -9,9 +9,11 @@ import Foundation
 
 class ApiService {
     
-    let url = URL(string: "http://localhost:8080")!
     
     public func listarTodos(completionHandler: @escaping ([ColaboradorDTO]) -> Void) {
+        
+        let url = URL(string: "http://localhost:8082")!
+
        
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {
@@ -44,6 +46,9 @@ class ApiService {
     }
     
     func save(nome: String, senha: String, viewController: ViewController) {
+        
+      let url = URL(string: "http://localhost:8084")!
+
       
       let parameters: [String: Any] = ["nome": nome, "senha": senha]
       
@@ -105,7 +110,7 @@ class ApiService {
       
       let session = URLSession.shared
         
-      let url = URL(string: "http://localhost:8080/associaChefe")!
+      let url = URL(string: "http://localhost:8081/associaChefe")!
 
         var request = URLRequest(url: url)
       request.httpMethod = "POST"
